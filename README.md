@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="image/paperclaw_logo.png" width="700" alt="PaperClaw Logo">
+  <img src="image/logo.png" width="700" alt="PaperClaw Logo">
 </p>
 
 <h2 align="center"><b>PaperClaw — 面向学术科研工作者的高能动性AI自动化辅助系统</b></h2>
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="image/framework_paperclaw.png" width="100%" alt="PaperClaw Framework">
+  <img src="image/framework_v2.png" width="100%" alt="PaperClaw Framework">
 </p>
 
 <p align="center">
