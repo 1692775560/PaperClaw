@@ -139,7 +139,7 @@ Phase D: 实验设计              Phase H: 最终化
 
 ```bash
 # 1. 克隆并安装
-git clone https://github.com/yourusername/PaperClaw.git
+git clone https://github.com/1692775560/PaperClaw.git
 cd PaperClaw
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e .
@@ -370,9 +370,9 @@ MIT License — 详见 [LICENSE](LICENSE)
 ```bibtex
 @software{paperclaw2026,
   title = {PaperClaw: 面向学术科研工作者的高能动性AI自动化辅助系统},
-  author = {Your Team},
+  author = {PaperClaw Team},
   year = {2026},
-  url = {https://github.com/yourusername/PaperClaw},
+  url = {https://github.com/1692775560/PaperClaw},
   note = {大脑(LLM决策引擎) + 手脚(Skill插件执行层) + 记忆(Memory知识管理) 三层协同架构}
 }
 ```
