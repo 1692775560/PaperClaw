@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="image/framework_v2.png" width="100%" alt="PaperClaw Framework">
+  <img src="image/framework.png" width="100%" alt="PaperClaw Framework">
 </p>
 
 <p align="center">
