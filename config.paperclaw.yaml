@@ -1,0 +1,182 @@
+# ============================================================================
+# PaperClaw 配置文件
+# 面向学术科研工作者的高能动性AI自动化辅助系统
+# 三层协同架构: 大脑(LLM决策引擎) + 手脚(Skill插件执行层) + 记忆(Memory知识管理)
+# ============================================================================
+
+project:
+  name: "my-research"
+  mode: "full-auto"  # docs-first | semi-auto | full-auto
+
+research:
+  topic: "你的研究主题"
+  domains:
+    - "machine-learning"
+    - "nlp"
+  daily_paper_count: 10
+  quality_threshold: 4.0
+
+runtime:
+  timezone: "Asia/Shanghai"
+  max_parallel_tasks: 3
+  approval_timeout_hours: 12
+  retry_limit: 2
+
+notifications:
+  channel: "console"
+  target: ""
+  on_stage_start: true
+  on_stage_fail: true
+  on_gate_required: true
+
+knowledge_base:
+  backend: "markdown"  # markdown | obsidian
+  root: "docs/kb"
+
+# ============================================================================
+# 大脑层配置 — LLM决策引擎
+# ============================================================================
+
+llm:
+  provider: "openai-compatible"
+  base_url: "https://api.deepseek.com/v1"
+  api_key_env: "DEEPSEEK_API_KEY"
+  api_key: "sk-f31e2e0f6c064c4f86a08b0a4df5cf6a"
+  primary_model: "deepseek-chat"
+  fallback_models:
+    - "deepseek-chat"
+  s2_api_key: ""  # Semantic Scholar API key (可选，提高文献检索速率限制)
+
+security:
+  hitl_required_stages: [5, 9, 20]  # 需要人工审批的门控阶段
+  allow_publish_without_approval: false
+  redact_sensitive_logs: true
+
+# ============================================================================
+# 手脚层配置 — Skill插件执行层
+# ============================================================================
+
+experiment:
+  # 实验执行模式
+  #   "sandbox"   — 本地沙盒执行，产出真实实验数据
+  #   "docker"    — Docker容器执行，支持GPU、依赖自动安装、内存隔离
+  #   "ssh_remote"— SSH远程服务器执行（适合GPU集群）
+  #   "simulated" — 模拟模式（仅用于开发调试）
+  mode: "simulated"
+  time_budget_sec: 300
+  max_iterations: 10
+  metric_key: "primary_metric"
+  metric_direction: "minimize"
+  
+  # Sandbox配置
+  sandbox:
+    python_path: ".venv/bin/python3"
+    gpu_required: false
+    max_memory_mb: 4096
+  
+  # Docker配置（需先构建镜像: docker build -t paperclaw/experiment:latest）
+  docker:
+    image: "paperclaw/experiment:latest"
+    gpu_enabled: true
+    memory_limit_mb: 8192
+    network_policy: "setup_only"  # none | setup_only | pip_only | full
+    auto_install_deps: true
+    shm_size_mb: 2048
+    keep_containers: false
+  
+  # SSH远程执行配置
+  ssh_remote:
+    host: ""
+    user: ""
+    port: 22
+    key_path: ""
+    gpu_ids: []
+    remote_workdir: "/tmp/paperclaw_experiments"
+    remote_python: "python3"
+    setup_commands: []
+    use_docker: false
+    docker_image: "paperclaw/experiment:latest"
+    docker_network_policy: "none"
+    docker_memory_limit_mb: 8192
+    docker_shm_size_mb: 2048
+  
+  # OpenCode Beast Mode — 复杂实验自动路由到外部AI编码Agent
+  opencode:
+    enabled: true
+    auto: true
+    complexity_threshold: 0.2  # 0.0-1.0，越高越只在复杂实验时触发
+    model: ""  # 留空则使用 llm.primary_model
+    timeout_sec: 600
+    max_retries: 1
+    workspace_cleanup: true
+  
+  # Colab Drive模式（无需SSH，通过Google Drive同步）
+  colab_drive:
+    drive_root: ""
+    poll_interval_sec: 30
+    timeout_sec: 3600
+    setup_script: ""
+  
+  # 科学可视化Agent（代码生成图表 + Nano Banana图像生成）
+  figure_agent:
+    enabled: true
+    min_figures: 3
+    max_figures: 10
+    max_iterations: 3
+    render_timeout_sec: 30
+    docker_image: "paperclaw/experiment:latest"
+    output_format: "python"  # python | latex
+    nano_banana_enabled: true
+    gemini_model: "gemini-2.5-flash-image"
+    strict_mode: false
+    dpi: 300
+
+# ============================================================================
+# 记忆层配置 — Memory知识管理
+# ============================================================================
+
+# MetaClaw集成 — 跨运行学习与自我进化
+metaclaw_bridge:
+  enabled: false
+  proxy_url: "http://localhost:30000"
+  skills_dir: "~/.metaclaw/skills"
+  fallback_url: ""
+  fallback_api_key: ""
+  
+  # PRM质量门控（LLM-as-judge评分）
+  prm:
+    enabled: false
+    api_base: ""
+    api_key_env: "PRM_API_KEY"
+    api_key: ""
+    model: "gpt-4o"
+    votes: 3
+    gate_stages: [5, 9, 15, 20]
+  
+  # Lesson转Skill（从失败中自动学习）
+  lesson_to_skill:
+    enabled: true
+    min_severity: "warning"  # info | warning | error
+    max_skills_per_run: 3
+
+# OpenClaw桥接（可选 — 与OpenClaw生态集成）
+openclaw_bridge:
+  use_cron: false
+  use_message: false
+  use_memory: false
+  use_sessions_spawn: false
+  use_web_fetch: false
+  use_browser: false
+
+# ============================================================================
+# 输出配置
+# ============================================================================
+
+export:
+  target_conference: "neurips_2025"  # neurips_2025 | iclr_2026 | icml_2026
+  authors: "Anonymous"
+  bib_file: "references"
+
+# 自定义提示词（可选）
+prompts:
+  custom_file: ""  # 留空则使用内置默认提示词

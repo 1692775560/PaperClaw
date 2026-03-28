@@ -20,7 +20,40 @@
 
 ---
 
-## 🎯 系统定位
+## � Web UI 界面
+
+**PaperClaw** 现已提供现代化的 Web 用户界面，让您无需命令行即可轻松使用！
+
+### ✨ 主要特性
+
+- 🎨 **专业深色主题** — 现代化UI设计，护眼配色
+- 🚀 **一键启动研究** — 输入主题即可开始23阶段自动化流程
+- 📊 **实时进度追踪** — 可视化显示每个阶段的执行状态
+- 💾 **智能配置保存** — API Key自动保存，无需重复输入
+- 📄 **结果在线查看** — 直接预览和下载生成的论文、代码等产物
+
+### 🚀 快速开始 Web UI
+
+```bash
+# 1. 启动后端API服务
+cd paperclaw-web/backend
+pip install -r requirements.txt
+python app.py
+
+# 2. 启动前端界面（新终端）
+cd paperclaw-web/frontend
+npm install
+npm run dev
+
+# 3. 访问浏览器
+# 打开 http://localhost:5173
+```
+
+详细使用说明请查看 [`paperclaw-web/USAGE.md`](paperclaw-web/USAGE.md)
+
+---
+
+## � 系统定位
 
 **PaperClaw** 是一套面向学术科研工作者的高能动性 AI 自动化辅助系统。针对传统科研流程中的系统性痛点：
 
@@ -135,25 +168,6 @@ Phase D: 实验设计              Phase H: 最终化
 
 ---
 
-## ⚡ 快速开始
-
-```bash
-# 1. 克隆并安装
-git clone https://github.com/1692775560/PaperClaw.git
-cd PaperClaw
-python3 -m venv .venv && source .venv/bin/activate
-pip install -e .
-
-# 2. 设置（交互式 — 安装依赖、检查Docker/LaTeX）
-paperclaw setup
-
-# 3. 配置
-paperclaw init          # 交互式: 选择LLM提供商，创建config.paperclaw.yaml
-# 或手动: cp config.paperclaw.example.yaml config.paperclaw.yaml
-
-# 4. 运行
-export OPENAI_API_KEY="sk-..."
-paperclaw run --config config.paperclaw.yaml --topic "你的研究想法" --auto-approve
 ```
 
 输出 → `artifacts/pc-YYYYMMDD-HHMMSS-<hash>/deliverables/` — 可编译的LaTeX、BibTeX、实验代码、图表。
